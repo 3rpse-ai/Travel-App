@@ -1,7 +1,7 @@
 //import { request } from "express";
 
 /* Global Variables */
-const apiKey = "f44cb97f3f4f45c41e014d003b3551e7";
+const apiKey = "&APPID=f44cb97f3f4f45c41e014d003b3551e7&units=imperial";
 const baseURL = "http://api.openweathermap.org/data/2.5/weather?zip=";
 // Create a new date instance dynamically with JS
 let d = new Date();
@@ -23,8 +23,17 @@ entryField.addEventListener("click",function(){
 })
 
 //dynamic URL
-function getURL(postcode){
-    return baseURL + postcode + ",at&APPID=" + apiKey;
+function getURL(){
+    const location = zipBox.value;
+    let zipCode = "";
+    let countryCode = "";
+    try{
+        zipCode = location.split(',')[0];
+        countryCode = location.split(',')[1];
+    } catch(error){
+        console.log("error",error);
+    }
+    return baseURL + zipCode + "," + countryCode + apiKey;
 }
 
 //networking
@@ -59,19 +68,19 @@ const postWeatherData = async (url = '', data = {})=>{
 
 //Main Function
 function processWeatherData(){
-    getWeatherData(getURL(zipBox.value))
+    getWeatherData(getURL())
     .then(function(data){
-        postWeatherData('/send',{date: newDate, temp: fahrenheitToKelvin(data.main.temp), res: feelingsBox.value})
+        postWeatherData('/send',{date: newDate, temp: fahrenheitToCelsius(data.main.temp), res: feelingsBox.value})
+    })
+    .then(function(data){
         updateUI();
     })
 };
 
 
-
-
 //Helper Functions
-function fahrenheitToKelvin(kelvin){
-    return (kelvin-273.15);
+function fahrenheitToCelsius(fahrenheit){
+    return ((fahrenheit-32)*5/9);
 }
 
 
