@@ -65,8 +65,6 @@ app.post('/receiveLocations', function(req, res){
     }
     getWeatherData(getURL(newRequest.location,newRequest.length))
     .then(function(data){
-        console.log("got quite far");
-        console.log(data);
         res.send(data);
     })
 })
@@ -76,8 +74,6 @@ const getWeatherData = async (url = '') =>{
     
     try{
         const data = await res.json();
-        console.log("data received:");
-        console.log(data);
         return data;
     } catch(error){
         console.log("error",error);
