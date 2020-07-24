@@ -1,11 +1,13 @@
 import { processWeatherData } from './js/app'
 import { processNewWeatherData } from './js/app'
+import { autocomplete } from './js/autocomplete'
 import './styles/style.scss'
 
 
 export{
     processWeatherData,
-    processNewWeatherData
+    processNewWeatherData,
+    autocomplete
 }
 
 console.log("Index.js reporting for duty sir!");

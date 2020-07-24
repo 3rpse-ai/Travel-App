@@ -13,7 +13,13 @@
     </div>
     <div class="holder zip">
       <label for="zip">Enter Zipcode here</label>
-      <input type="text" id="zip" placeholder="Please use format: Zipcode,Countrycode (1220,AT)">
+      <form autocomplete="off" action="/action_page.php">
+        <div class="autocomplete" style="width:300px;">
+          <input type="text" id="zip" placeholder="Please use format: Zipcode,Countrycode (1220,AT)">
+        </div>
+        <input type="submit">
+      </form>
+     
     </div>
 
     <div class="holder feel">

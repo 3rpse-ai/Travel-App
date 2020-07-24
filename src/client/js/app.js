@@ -1,4 +1,5 @@
 //import { request } from "express";
+import { refreshList } from './autocomplete'
 
 /* Global Variables */
 const apiKey = "&APPID=f44cb97f3f4f45c41e014d003b3551e7&units=imperial";
@@ -82,6 +83,11 @@ function processWeatherData(){
 
 function processNewWeatherData(){
     postWeatherData('http://localhost:8000/receiveLocations',{location: zipBox.value, length: 10})
+    .then(function(data){
+        //const geoNames = data.geonames;
+        console.log(data);
+        //console.log(geoNames);
+    })
 };
 
 
