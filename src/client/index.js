@@ -2,6 +2,7 @@ import { processWeatherData } from './js/app'
 import { processNewWeatherData } from './js/app'
 import { autocomplete } from './js/autocomplete'
 import './styles/style.scss'
+import './styles/autocomplete.scss'
 
 
 export{
@@ -26,3 +27,5 @@ button.addEventListener("click",processNewWeatherData);
 entryField.addEventListener("click",function(){
     entryField.style.visibility = "hidden";
 })
+
+autocomplete(document.getElementById("zip"), processNewWeatherData);

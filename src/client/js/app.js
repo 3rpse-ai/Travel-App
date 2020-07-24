@@ -64,6 +64,7 @@ const postWeatherData = async (url = '', data = {})=>{
 
     try{
         const newData = await response.json();
+        console.log(response);
         console.log(newData);
         return newData;
     }catch(error){
@@ -82,12 +83,16 @@ function processWeatherData(){
     })
 };
 
-function processNewWeatherData(){
-    postWeatherData('http://localhost:8000/receiveLocations',{location: zipBox.value, length: 10})
+function processNewWeatherData(query){
+    postWeatherData('http://localhost:8000/receiveLocations',{location: query, length: 10})
     .then(function(data){
-        console.log(data);
-        const newData = JSON.parse(data);
-        console.log(newData);
+        const geoNames = data.geonames;
+        console.log(geoNames);
+        let names = [];
+        for(const geoName of geoNames){
+            names.push(geoName.name)
+        }
+        refreshList(zipBox, names);
     })
 };
 
