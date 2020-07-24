@@ -16,11 +16,6 @@ const entryDate = document.getElementById("date");
 const entryTemp = document.getElementById("temp");
 const entryFeel = document.getElementById("content");
 
-//event listeners
-button.addEventListener("click",processWeatherData);
-entryField.addEventListener("click",function(){
-    entryField.style.visibility = "hidden";
-})
 
 //dynamic URL
 function getURL(){
@@ -36,12 +31,20 @@ function getURL(){
     return baseURL + zipCode + "," + countryCode + apiKey;
 }
 
+//dynamic URL
+function getNewURL(){
+    const location = zipBox.value;
+    return 'http://api.geonames.org/search?q='+location+'&maxRows=1&username=3rpse';
+}
+
+
 //networking
 const getWeatherData = async (url = '') =>{
     const res = await fetch(url);
     
     try{
         const data = await res.json();
+        console.log(data);
         return data;
     } catch(error){
         console.log("error",error);
@@ -70,11 +73,15 @@ const postWeatherData = async (url = '', data = {})=>{
 function processWeatherData(){
     getWeatherData(getURL())
     .then(function(data){
-        postWeatherData('/send',{date: newDate, temp: fahrenheitToCelsius(data.main.temp), res: feelingsBox.value})
+        postWeatherData('http://localhost:8000/send',{date: newDate, temp: fahrenheitToCelsius(data.main.temp), res: feelingsBox.value})
     })
     .then(function(data){
         updateUI();
     })
+};
+
+function processNewWeatherData(){
+    postWeatherData('http://localhost:8000/receiveLocations',{location: zipBox.value, length: 10})
 };
 
 
@@ -85,7 +92,7 @@ function fahrenheitToCelsius(fahrenheit){
 
 
 const updateUI = async() =>{
-    const req = await fetch('/all');
+    const req = await fetch('http://localhost:8000/all');
     
     try{
         const data = await req.json();
@@ -98,3 +105,5 @@ const updateUI = async() =>{
         console.log("error",error);
     }
 }
+
+export{ processWeatherData, processNewWeatherData }
