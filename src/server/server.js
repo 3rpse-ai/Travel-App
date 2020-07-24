@@ -11,11 +11,21 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//fetch for making requests
+const fetch = require("node-fetch");
+
+//dotenv for saver storage of environment variables
+const dotenv = require('dotenv');
+dotenv.config();
+
+//environment variables
+const geoNamesUser = process.env.GEONAMES_USERNAME;
+
 // Cors for cross origin allowance
 const cors = require('cors');
 app.use(cors());
 // Initialize the main project folder
-app.use(express.static('website'));
+app.use(express.static('dist'))
 
 
 // Setup Server
@@ -46,5 +56,38 @@ app.post('/send', function(req, res){
     projectData = newEntry;
     console.log(projectData);
 })
+
+app.post('/receiveLocations', function(req, res){
+    let newData = req.body;
+    let newRequest = {
+        location: newData.location,
+        length: newData.length,
+    }
+    getWeatherData(getURL(newRequest.location,newRequest.length))
+    .then(function(data){
+        console.log("got quite far");
+        console.log(data);
+        res.send(data);
+    })
+})
+
+const getWeatherData = async (url = '') =>{
+    const res = await fetch(url);
+    
+    try{
+        const data = await res.json();
+        console.log("data received:");
+        console.log(data);
+        return data;
+    } catch(error){
+        console.log("error",error);
+    }
+}
+
+function getURL(location, length){
+    console.log('http://api.geonames.org/searchJSON?q='+location+'&maxRows='+length+'&username=3rpse');
+    return 'http://api.geonames.org/searchJSON?q='+location+'&maxRows='+length+'&username=3rpse';
+}
+
 
 
