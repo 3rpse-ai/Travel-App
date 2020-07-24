@@ -85,9 +85,9 @@ function processWeatherData(){
 function processNewWeatherData(){
     postWeatherData('http://localhost:8000/receiveLocations',{location: zipBox.value, length: 10})
     .then(function(data){
-        //const geoNames = data.geonames;
         console.log(data);
-        //console.log(geoNames);
+        const newData = JSON.parse(data);
+        console.log(newData);
     })
 };
 
