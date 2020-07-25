@@ -8,7 +8,6 @@ input {
   }
 
 button{
-    margin-inline-start: 10px;
     padding: 12px 32px;
     text-decoration: none;    
 }
@@ -32,5 +31,18 @@ label {
 input,
 label {
     margin: .4rem 0;
+}
+
+
+h1{
+    font-size: 40px;
+    margin: 0;
+}
+
+h2{
+    font-size: 30px;
+    font-weight: 200;
+    margin: 0;
+    margin-top: 12px;
 }
 

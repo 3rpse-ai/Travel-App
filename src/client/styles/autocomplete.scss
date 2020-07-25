@@ -5,7 +5,12 @@ body {
 .autocomplete {
   /*the container must be positioned relative:*/
   position: relative;
+  width: 100%;
   display: inline-block;
+
+  #location{
+      width: 100%;
+  }
 }
 
 

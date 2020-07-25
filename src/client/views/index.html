@@ -3,17 +3,18 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weather Journal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel App</title>
 </head>
 
 <body>
   <div id="app">
     <div class="holder headline">
-      Weather Journal App
+      Travel App
     </div>
-    <button class = "primaryButton" id="planTripButton">Plan Next Trip</button>
+    <button class="primaryButton" id="planTripButton">Plan Next Trip</button>
 
-    
+
     <div style="color:red;">test</div>
 
 
@@ -22,16 +23,18 @@
 
   <div class="addTripModal">
     <div class="modalContent">
-      <span id="modalHeader">Ready for your next trip?</span>
-      <div id="modalMain">
-        <div id="modalInput">
-          <label for="location">Where do you want to go?</label>
+      <h1 id="modalHeader">Ready for your next trip?</h1>
+      <div id="modalInput">
+        <div>
+          <h2>Where do you want to go?</h2>
           <form autocomplete="off" action="/action_page.php">
             <div class="autocomplete">
               <input type="text" id="location" placeholder="Search for a location">
             </div>
           </form>
-          <span>When do you want to go?</span>
+        </div>
+        <div>
+          <h2>When do you want to go?</h2>
           <div id="datepicker">
             <div>
               <label for="start">Start Date</label>
@@ -43,10 +46,10 @@
             </div>
           </div>
         </div>
-        <div id="pic">
-          <img src="https://images.wsj.net/im-196106?width=1280&size=1">
-        </div>
 
+      </div>
+      <div id="pic">
+        <img src="https://images.wsj.net/im-196106?width=1280&size=1">
       </div>
 
       <div id="modalbuttons">

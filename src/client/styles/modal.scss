@@ -1,7 +1,7 @@
-.addTripModal{
-    background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  display: none;
+.addTripModal {
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    display: none;
     position: absolute;
     margin: 0%, 10%;
     width: 100%;
@@ -10,41 +10,121 @@
     left: 0;
     top: 0;
     overflow: auto;
-    .modalContent{
+
+    .modalContent {
+        display: grid;
         background-color: #fefefe;
         margin: 15% auto; /* 15% from the top and centered */
         padding: 20px;
         border: 1px solid #888;
-        width: 80%; 
-    }
-    #datepicker{
-        display: flex;
-        flex-direction: row;
-    
-        div{
-            margin-inline-end: 10px;
+        width: 80%;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+        "hd hd"
+        "pic pic"
+        "main main"
+        "btn btn";
+
+        #modalHeader {
+            grid-area: hd;
+            text-align: center;
         }
-    }
-    #modalbuttons{
-        display:flex;
-        justify-content: flex-end;
+        #modalInput {
+            grid-area: main;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+
+            #datepicker {
+                display: flex;
+                flex-direction: row;
+    
+                div {
+                    margin-inline-end: 10px;
+                }
+            }
+        }
+
+        
+       
+
+        #pic {
+            grid-area: pic;
+            display: flex;
+            justify-content: center;
+            padding: 14px 0;
+
+            img {
+                height: auto;
+                width: 80%;
+            }
+        }
+
+        #modalbuttons {
+            grid-area: btn;
+            display: flex;
+            justify-content: center;
+
+            button{
+                flex-grow: 1;
+                margin: 0, 12px;
+            }
+        }
         
     }
-    #modalMain{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 14px 0;
+
+
+    @media only screen and (min-width: 1200px){
+        
+        .modalContent {
+            display: grid;
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas:
+                "hd hd"
+                "main pic"
+                "btn btn";
+
+                #modalInput {
+                    grid-area: main;
+                    align-items: flex-start;
+                }
+
+                #modalbuttons {
+                    grid-area: btn;
+                    display: flex;
+                    justify-content: flex-end;
+
+                    button{
+                        flex-grow: 0;
+                        margin-inline-start: 12px;
+                    }
+                
+                }
+
+                #pic {
+                    grid-area: pic;
+                    display: flex;
+                    justify-content: flex-end;
+        
+                    img {
+                        height: 360px;
+                        width: auto;
+                    }
+                }
+        }
+
+            
+
+
         
 
-        #pic{
-            display: flex;
-            background-color: yellow;
-            justify-content: flex-end;
-        }
-        img{
-            height: 360px;
-            width: auto;
-        }
+       
     }
+    
 }
