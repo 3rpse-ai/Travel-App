@@ -5,8 +5,8 @@ function autocomplete(inp, refreshCallback) {
     /*execute a function when someone writes in the text field:*/
     inp.addEventListener("input", function(e) {
       let val = this.value;
-      refreshCallback.apply(this, [val]);
       if (!val) { return false;}
+      refreshCallback.apply(this, [val]);
     });
     /*execute a function presses a key on the keyboard:*/
     inp.addEventListener("keydown", function(e) {
@@ -78,7 +78,7 @@ function autocomplete(inp, refreshCallback) {
     }
   }
 
- function refreshList(inp, arr){
+ function refreshList(inp, arr, getSelectedPosition){
    
   var a, b, i;
   /*close any already open lists of autocompleted values*/
@@ -98,10 +98,14 @@ function autocomplete(inp, refreshCallback) {
       b = document.createElement("DIV");
       /*insert a input field that will hold the current array item's value:*/
       b.innerHTML += "<input type='visible' value='" + arr[i] + "'>";
+      b.setAttribute("arraynmbr", i +"")
       /*execute a function when someone clicks on the item value (DIV element):*/
           b.addEventListener("click", function(e) {
           /*insert the value for the autocomplete text field:*/
           inp.value = this.getElementsByTagName("input")[0].value;
+          /*return the position of the selected element in the array*/
+          const arrayPosition = this.getAttribute("arraynmbr");
+          getSelectedPosition.apply(this, [arrayPosition]);
           /*close the list of autocompleted values,
           (or any other open lists of autocompleted values:*/
           closeAllList(inp);

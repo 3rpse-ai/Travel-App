@@ -1,13 +1,11 @@
-import { processWeatherData } from './js/app'
-import { processNewWeatherData } from './js/app'
+import { searchLocation } from './js/app'
 import { autocomplete } from './js/autocomplete'
 import './styles/style.scss'
 import './styles/autocomplete.scss'
 
 
 export{
-    processWeatherData,
-    processNewWeatherData,
+    searchLocation,
     autocomplete
 }
 
@@ -23,9 +21,9 @@ const entryTemp = document.getElementById("temp");
 const entryFeel = document.getElementById("content");
 
 //event listeners
-button.addEventListener("click",processNewWeatherData);
+button.addEventListener("click",searchLocation);
 entryField.addEventListener("click",function(){
     entryField.style.visibility = "hidden";
 })
 
-autocomplete(document.getElementById("zip"), processNewWeatherData);
+autocomplete(document.getElementById("zip"), searchLocation);
