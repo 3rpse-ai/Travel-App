@@ -1,5 +1,8 @@
 import { refreshList } from './autocomplete'
 
+//Weatherbit API Key
+const weatherbitKey = "6653081b9e7e4045904f295cee42510c"
+
 
 //HTML reference variables
 const searchBox = document.getElementById("location");
@@ -92,16 +95,22 @@ function searchLocation(query) {
             }
             refreshList(searchBox, names, getSelectedPosition);
         })
+        
 };
 
 function getWeatherData(){
 
 }
 
+function getWeatherURL(){
+    return "https://api.weatherbit.io/v2.0/forecast/daily?lat="+ selectedGeoName.lat + "&lon=" + selectedGeoName.lng + "&key=" + weatherbitKey
+}
+
 //callback function for receiving the autoselect element position
 function getSelectedPosition(position) {
     selectedGeoName = geoNames[position];
     console.log(selectedGeoName);
+    console.log(getWeatherURL());
 }
 
 export { searchLocation }
