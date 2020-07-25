@@ -16,14 +16,11 @@ let geoNames;
 let selectedGeoName;
 
 const currentDate = new Date();
-const tmrw = new Date(currentDate);
-tmrw.setDate(tmrw.getDate() + 1);
-//const tmrw = currentDate.setDate(currentDate.getDate() + 1)
 startDatePicker.valueAsDate = currentDate;
-endDatePicker.valueAsDate = tmrw;
+endDatePicker.valueAsDate = addDays(currentDate, 1);
 //getting today as string value for datepicker min attribute
 
-//helper function for converting date to string
+//helper functions for converting date to string
 function convertDateToString(date) {
     var dd = date.getDate();
     var mm = date.getMonth() + 1; //January is 0!
@@ -37,9 +34,17 @@ function convertDateToString(date) {
     return yyyy + '-' + mm + '-' + dd;
 }
 
+function addDays(date, days){
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+}
+
 //setting min choosable dates for start/enddate
 startDatePicker.min = convertDateToString(currentDate);
-endDatePicker.min = convertDateToString(tmrw);
+startDatePicker.max = convertDateToString(addDays(currentDate, 14));
+endDatePicker.min = convertDateToString(addDays(currentDate,1));
+endDatePicker.max = convertDateToString(addDays(currentDate,15));
 
 
 //modal window event listeners
@@ -88,6 +93,10 @@ function searchLocation(query) {
             refreshList(searchBox, names, getSelectedPosition);
         })
 };
+
+function getWeatherData(){
+
+}
 
 //callback function for receiving the autoselect element position
 function getSelectedPosition(position) {
