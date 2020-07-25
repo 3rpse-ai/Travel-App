@@ -1,3 +1,9 @@
+/* 
+sample code taken from: https://www.w3schools.com/howto/howto_js_autocomplete.asp
+Adaptions were made in order to reload results on typing via API & to return chosen element's position
+*/
+
+
 function autocomplete(inp, refreshCallback) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/

@@ -11,30 +11,36 @@
     <div class="holder headline">
       Weather Journal App
     </div>
-    <div class="holder zip">
-      <label for="zip">Enter Zipcode here</label>
-      <form autocomplete="off" action="/action_page.php">
-        <div class="autocomplete" style="width:300px;">
-          <input type="text" id="zip" placeholder="Please use format: Zipcode,Countrycode (1220,AT)">
-        </div>
-        <input type="submit">
-      </form>
-     
-    </div>
 
-    <div class="holder feel">
-      <label for="feelings">How are you feeling today?</label>
-      <textarea class="myInput" id="feelings" placeholder="Enter your feelings here" rows="9" cols="50"></textarea>
-      <button id="generate" type="submit"> Generate </button>
-    </div>
-    <div class="holder entry">
-      <div class="title"></div>
-      <div id="entryHolder">
-        <div id="date"></div>
-        <div id="temp"></div>
-        <div id="content"></div>
+    <div class="addTripModal">
+      <div class="modalContent">
+        <label for="location">Where do you want to go?</label>
+        <form autocomplete="off" action="/action_page.php">
+          <div class="autocomplete">
+            <input type="text" id="location" placeholder="Search for a location">
+          </div>
+        </form>
+        <span>When do you want to go?</span>
+        <div id="datepicker">
+          <div>
+            <label for="start">Start Date</label>
+            <input type="date" id="start" name ="trip-start">
+          </div>
+          
+          <div>
+            <label for="end">End Date</label>
+            <input type="date" id="end" name ="trip-end">
+          </div>
+          
+          
+
+        </div>
       </div>
     </div>
+    <div style="color:red;">test</div>
+
+
+
   </div>
 
 </body>
