@@ -2,6 +2,7 @@ import { searchLocation } from './js/app'
 import { autocomplete } from './js/autocomplete'
 import './styles/style.scss'
 import './styles/autocomplete.scss'
+import './styles/modal.scss'
 
 
 export{

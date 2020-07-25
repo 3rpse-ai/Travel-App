@@ -1,4 +1,3 @@
-//import { request } from "express";
 import { refreshList } from './autocomplete'
 
 
@@ -6,6 +5,11 @@ import { refreshList } from './autocomplete'
 const searchBox = document.getElementById("location");
 const startDatePicker = document.getElementById("start");
 const endDatePicker = document.getElementById("end");
+const modalWindow = document.getElementsByClassName("addTripModal")[0];
+const confirmButton = document.getElementById("confirmModal");
+const cancelButton = document.getElementById("cancelModal");
+const planTripButton = document.getElementById("planTripButton");
+
 
 //variables for storing location array
 let geoNames;
@@ -33,9 +37,24 @@ function convertDateToString(date) {
     return yyyy + '-' + mm + '-' + dd;
 }
 
+//setting min choosable dates for start/enddate
 startDatePicker.min = convertDateToString(currentDate);
 endDatePicker.min = convertDateToString(tmrw);
 
+
+//modal window event listeners
+cancelButton.addEventListener("click",function(){
+    modalWindow.style.display = "none";
+});
+modalWindow.addEventListener("click",function(e){
+    if (e.target !== this){
+        return
+    }
+    modalWindow.style.display = "none";
+});
+planTripButton.addEventListener("click",function(){
+    modalWindow.style.display = "block";
+});
 
 const postWeatherData = async (url = '', data = {}) => {
     const response = await fetch(url, {

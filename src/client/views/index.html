@@ -11,36 +11,49 @@
     <div class="holder headline">
       Weather Journal App
     </div>
+    <button class = "primaryButton" id="planTripButton">Plan Next Trip</button>
 
-    <div class="addTripModal">
-      <div class="modalContent">
-        <label for="location">Where do you want to go?</label>
-        <form autocomplete="off" action="/action_page.php">
-          <div class="autocomplete">
-            <input type="text" id="location" placeholder="Search for a location">
-          </div>
-        </form>
-        <span>When do you want to go?</span>
-        <div id="datepicker">
-          <div>
-            <label for="start">Start Date</label>
-            <input type="date" id="start" name ="trip-start">
-          </div>
-          
-          <div>
-            <label for="end">End Date</label>
-            <input type="date" id="end" name ="trip-end">
-          </div>
-          
-          
-
-        </div>
-      </div>
-    </div>
+    
     <div style="color:red;">test</div>
 
 
 
+  </div>
+
+  <div class="addTripModal">
+    <div class="modalContent">
+      <span id="modalHeader">Ready for your next trip?</span>
+      <div id="modalMain">
+        <div id="modalInput">
+          <label for="location">Where do you want to go?</label>
+          <form autocomplete="off" action="/action_page.php">
+            <div class="autocomplete">
+              <input type="text" id="location" placeholder="Search for a location">
+            </div>
+          </form>
+          <span>When do you want to go?</span>
+          <div id="datepicker">
+            <div>
+              <label for="start">Start Date</label>
+              <input type="date" id="start" name="trip-start">
+            </div>
+            <div>
+              <label for="end">End Date</label>
+              <input type="date" id="end" name="trip-end">
+            </div>
+          </div>
+        </div>
+        <div id="pic">
+          <img src="https://images.wsj.net/im-196106?width=1280&size=1">
+        </div>
+
+      </div>
+
+      <div id="modalbuttons">
+        <button class="secondaryButton" id="cancelModal" type="button">Cancel</button>
+        <button class="primaryButton" id="confirmModal" type="button">Submit</button>
+      </div>
+    </div>
   </div>
 
 </body>

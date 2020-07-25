@@ -81,8 +81,7 @@ const getWeatherData = async (url = '') =>{
 }
 
 function getURL(location, length){
-    console.log('http://api.geonames.org/searchJSON?q='+location+'&maxRows='+length+'&username'+geoNamesUser);
-    return 'http://api.geonames.org/searchJSON?q='+location+'&maxRows='+length+'&username='+geoNamesUser;
+    return encodeURI('http://api.geonames.org/searchJSON?q='+location+'&maxRows='+length+'&username='+geoNamesUser);
 }
 
 
