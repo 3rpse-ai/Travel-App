@@ -20,12 +20,15 @@ dotenv.config();
 
 //environment variables
 const geoNamesUser = process.env.GEONAMES_USERNAME;
+const weatherbitKey = process.env.WEATHERBIT_API_KEY;
 
 // Cors for cross origin allowance
 const cors = require('cors');
 app.use(cors());
 // Initialize the main project folder
 app.use(express.static('dist'))
+
+
 
 
 // Setup Server
@@ -63,13 +66,31 @@ app.post('/receiveLocations', function(req, res){
         location: newData.location,
         length: newData.length,
     }
-    getWeatherData(getURL(newRequest.location,newRequest.length))
+    getData(getURL(newRequest.location,newRequest.length))
     .then(function(data){
         res.send(data);
     })
 })
 
-const getWeatherData = async (url = '') =>{
+app.post('/newTrip', function(req, res){
+    let newData = req.body;
+    console.log("we got to receiving stuff")
+    let newRequest = {
+        name: newData.name,
+        lat: newData.lat,
+        lng: newData.lng,
+        startTime: newData.startTime,
+        endTime: newData.endTime,
+    }
+    getData(getWeatherURL(newRequest.lat,newRequest.lng))
+    .then(function(data){
+        console.log("we got to sending stuff")
+        console.log(data);
+        res.send(data);
+    })
+})
+
+const getData = async (url = '') =>{
     const res = await fetch(url);
     
     try{
@@ -84,5 +105,14 @@ function getURL(location, length){
     return encodeURI('http://api.geonames.org/searchJSON?q='+location+'&maxRows='+length+'&username='+geoNamesUser);
 }
 
+
+function getWeatherURL(lat, lng){
+    return "https://api.weatherbit.io/v2.0/forecast/daily?lat="+ lat + "&lon=" + lng + "&key=" + weatherbitKey
+}
+
+
+function getPicURL(name){
+    
+}
 
 

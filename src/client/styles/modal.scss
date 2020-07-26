@@ -36,6 +36,13 @@
             align-items: center;
             padding: 16px 0;
 
+            #hint {
+                display: none;
+                color: red;
+                font-size: 12px;
+                font-style: italic;
+            }
+
             #datepicker {
                 display: flex;
                 flex-direction: row;

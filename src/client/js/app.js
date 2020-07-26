@@ -5,13 +5,16 @@ const weatherbitKey = "6653081b9e7e4045904f295cee42510c"
 
 
 //HTML reference variables
+const planTripButton = document.getElementById("planTripButton");
+
+//modalVariables
 const searchBox = document.getElementById("location");
 const startDatePicker = document.getElementById("start");
 const endDatePicker = document.getElementById("end");
 const modalWindow = document.getElementsByClassName("addTripModal")[0];
 const confirmButton = document.getElementById("confirmModal");
 const cancelButton = document.getElementById("cancelModal");
-const planTripButton = document.getElementById("planTripButton");
+const hint = document.getElementById("hint");
 
 
 //variables for storing location array
@@ -37,7 +40,7 @@ function convertDateToString(date) {
     return yyyy + '-' + mm + '-' + dd;
 }
 
-function addDays(date, days){
+function addDays(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
@@ -46,23 +49,36 @@ function addDays(date, days){
 //setting min choosable dates for start/enddate
 startDatePicker.min = convertDateToString(currentDate);
 startDatePicker.max = convertDateToString(addDays(currentDate, 14));
-endDatePicker.min = convertDateToString(addDays(currentDate,1));
-endDatePicker.max = convertDateToString(addDays(currentDate,15));
+endDatePicker.min = convertDateToString(addDays(currentDate, 1));
+endDatePicker.max = convertDateToString(addDays(currentDate, 15));
 
 
 //modal window event listeners
-cancelButton.addEventListener("click",function(){
+cancelButton.addEventListener("click", function () {
     modalWindow.style.display = "none";
 });
-modalWindow.addEventListener("click",function(e){
-    if (e.target !== this){
+modalWindow.addEventListener("click", function (e) {
+    if (e.target !== this) {
         return
     }
     modalWindow.style.display = "none";
 });
-planTripButton.addEventListener("click",function(){
+planTripButton.addEventListener("click", function () {
     modalWindow.style.display = "block";
 });
+confirmButton.addEventListener("click", function () {
+    if (selectedGeoName == null) {
+        hint.style.display = "inline";
+    } else{
+        submitForm();
+        modalWindow.style.display = "none"
+    }
+})
+
+
+
+
+//networking
 
 const postWeatherData = async (url = '', data = {}) => {
     const response = await fetch(url, {
@@ -76,8 +92,6 @@ const postWeatherData = async (url = '', data = {}) => {
 
     try {
         const newData = await response.json();
-        console.log(response);
-        console.log(newData);
         return newData;
     } catch (error) {
         console.log("error", error);
@@ -95,22 +109,35 @@ function searchLocation(query) {
             }
             refreshList(searchBox, names, getSelectedPosition);
         })
-        
+
 };
 
-function getWeatherData(){
+const getWeatherData = async (url = '') => {
+    const res = await fetch(url);
 
+    try {
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.log("error", error);
+    }
 }
 
-function getWeatherURL(){
-    return "https://api.weatherbit.io/v2.0/forecast/daily?lat="+ selectedGeoName.lat + "&lon=" + selectedGeoName.lng + "&key=" + weatherbitKey
+function getWeatherURL() {
+    return "https://api.weatherbit.io/v2.0/forecast/daily?lat=" + selectedGeoName.lat + "&lon=" + selectedGeoName.lng + "&key=" + weatherbitKey
 }
 
 //callback function for receiving the autoselect element position
 function getSelectedPosition(position) {
     selectedGeoName = geoNames[position];
-    console.log(selectedGeoName);
-    console.log(getWeatherURL());
+}
+
+function submitForm() {
+    const body = { name: selectedGeoName.name, lat: selectedGeoName.lat, lng: selectedGeoName.lng, startTime: startDatePicker.value, endTime: endDatePicker.value };
+    postWeatherData('http://localhost:8000/newTrip', body)
+        .then(function (data) {
+            console.log(data);
+        });
 }
 
 export { searchLocation }
