@@ -146,7 +146,7 @@ function addTripCard(trip) {
     }
     startDate.innerHTML = trip.startTime;
     endDate.innerHTML = trip.endTime;
-    days.innerHTLM = "1";
+    days.innerHTML = "" + getDaysLeft(trip.startTime);
 
     expandButton.addEventListener("click", function () {
         showWeatherData(this);
@@ -161,6 +161,12 @@ function addTripCard(trip) {
     avgTemp.innerHTML = trip.avgTemp;
 
     mainContent.appendChild(newTrip);
+}
+
+function getDaysLeft(startTime){
+    const today = new Date(convertDateToString(currentDate));
+    const startDate = new Date(startTime);
+    return (startDate.getTime() - today.getTime())/(1000*60*60*24);
 }
 
 
