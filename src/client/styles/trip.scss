@@ -1,0 +1,85 @@
+.trip{
+    background: lightblue;
+    display:grid;
+    grid-template-areas: 
+    "hd hd"
+    "img img"
+    "dte dte"
+    "wth wth";
+    width: 100%;
+    padding: 5%;
+
+    h1{
+        grid-area: hd;
+    }
+    img{
+        grid-area: img;
+        width: 100%;
+    }
+    .timebox{
+        margin: 16px 0;
+        grid-area: dte;
+        font-size: 20px;
+        .time{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
+    .weather{
+        grid-area: wth;
+        .weatherHeader{
+            display: flex;
+            justify-content: space-between;
+            h1{
+                font-size: 20px;
+            }
+            button{
+                width: 24px;
+                height: 24px;
+                padding: 0;
+            }
+        }
+        .weatherBox{
+            margin-top: 16px;
+            display: none;
+
+            .temp{
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 1200px){
+    .trip{
+        padding: 2%;
+        grid-template-areas: 
+        "hd hd"
+        "img dte"
+        "img wth";
+        grid-template-columns: 65% 35%;
+
+        img{
+            width: 95%;
+        }
+
+        .timebox{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: lightcyan;
+            padding: 12px;
+            margin: 0;
+        }
+        .weather{
+            padding: 12px;
+            background-color: lightcyan;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+    
+}

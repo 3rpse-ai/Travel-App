@@ -81,9 +81,15 @@ app.post('/newTrip', function(req, res){
         startTime: newData.startTime,
         endTime: newData.endTime,
         picURL: null,
+        minTemp: null,
+        maxTemp: null,
+        avgTemp: null,
     }
     getData(getWeatherURL())
     .then(function(data){
+        newTrip.maxTemp = roundToTwo(getMax(data.data));
+        newTrip.minTemp = roundToTwo(getMin(data.data));
+        newTrip.avgTemp = roundToTwo(getAverage(data.data));
         return getData(getPicURL())
     })
     .then(function(data){
@@ -119,7 +125,73 @@ function getWeatherURL(){
 }
 
 function getPicURL(){
-    return "https://pixabay.com/api/?key="+ pixabayKey  + "&q=" + encodeURI(newTrip.name) + "&image_type=photo" + "&category=places";
+    return "https://pixabay.com/api/?key="+ pixabayKey  + "&q=" + encodeURI(newTrip.name) + "&image_type=photo" + "&category=places" + "&orientation=horizontal";
 }
 
+
+//helper functions for returning average min & max temperature
+function getAdaptedWeatherArray(weatherData){
+    let startReached = false;
+    let endReached = false;
+    let newWeatherArray = [];
+
+    for(day of weatherData){
+        if(!startReached){
+            if(day.valid_date == newTrip.startTime){
+                startReached = true;
+            }
+        }
+        if(startReached && !endReached){
+            newWeatherArray.push(day);
+        }
+        if(!endReached){
+            if(day.valid_date == newTrip.endTime){
+                endReached = true;
+            }
+        }
+    }
+    return newWeatherArray;
+}
+
+function getAverage(weatherData){
+    const newData = getAdaptedWeatherArray(weatherData);
+    let sum = 0;
+    let count = 0;
+    for(day of newData){
+        count += 1;
+        sum += ((day.min_temp + day.max_temp)/2);
+    }
+    if(count != 0){
+        return (sum/count);
+    } else{
+        return 0;
+    }
+}
+function getMax(weatherData){
+    const newData = getAdaptedWeatherArray(weatherData);
+    let max = 0;
+    for(day of newData){
+        if (max < day.max_temp){
+            max = day.max_temp;
+        }
+    }
+    return max;
+}
+
+function getMin(weatherData){
+    const newData = getAdaptedWeatherArray(weatherData);
+    let min = 0;
+    for(day of newData){
+        if(min == 0){
+            min = day.min_temp;
+        } else if (min > day.min_temp){
+            min = day.min_temp;
+        }
+    }
+    return min;
+}
+
+function roundToTwo(num) {    
+    return +(Math.round(num + "e+2")  + "e-2");
+}
 
