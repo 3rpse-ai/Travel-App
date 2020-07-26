@@ -45,7 +45,7 @@
 
             #datepicker {
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
     
                 div {
                     margin-inline-end: 10px;
@@ -100,6 +100,11 @@
                 #modalInput {
                     grid-area: main;
                     align-items: flex-start;
+
+                    #datepicker {
+                        display: flex;
+                        flex-direction: row;
+                    }
                 }
 
                 #modalbuttons {

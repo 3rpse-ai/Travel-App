@@ -9,50 +9,50 @@
 
 <body>
   <div id="app">
-    <div class="holder headline">
+    <h1 class="holder headline">
       Travel App
-    </div>
+    </h1>
     <button class="primaryButton" id="planTripButton">Plan Next Trip</button>
     <div id="mainContent">
-      <div class="trip">
-        <h1 class="tripLocation">London</h1>
+      <div id="trip">
+        <h1 id="tripLocation">London</h1>
+        <button class="secondaryButton" id="delTrip">Delete</button>
         <img
           src="https://images.musement.com/cover/0002/49/big-ben-westminster-bridge-on-river-thames-in-london-jpg_header-148518.jpeg?w=1200&h=630&q=95&fit=crop">
         <div class="timebox">
-          
             <div class="time">
               <div>Start:</div>
-              <div class="startDate">26.08.2020</div>
+              <div id="startDate">26.08.2020</div>
             </div>
             <div class="time">
               <div>End:</div>
-              <div class="endDate">27.08.2020</div>
+              <div id="endDate">27.08.2020</div>
             </div>
             <div class="time">
               <div>Days:</div>
-              <div class="endDate">1</div>
+              <div id="days">1</div>
             </div>
         </div>
         <div class="weather">
           <div class="weatherHeader">
             <h1>Expected Weather</h1>
             <div>
-              <button class="primaryButton expand">+</button>
-              <button class="primaryButton expand">-</button>
+              <button class="primaryButton" id="expand">+</button>
+              <button class="primaryButton" id="shrink">-</button>
             </div>
           </div>
-          <div class="weatherBox">
+          <div id="weatherBox">
             <div class="temp">
               <div>Min Temp:</div>
-              <div>10°C</div>
+              <div id="min">10°C</div>
             </div>
             <div class="temp">
               <div>Max Temp:</div>
-              <div>10°C</div>
+              <div id="max">10°C</div>
             </div>
             <div class="temp">
               <div>Average Temp:</div>
-              <div>10°C</div>
+              <div id="avg">10°C</div>
             </div>
           </div>
         </div>

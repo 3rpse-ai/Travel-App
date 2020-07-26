@@ -6,6 +6,8 @@ const weatherbitKey = "6653081b9e7e4045904f295cee42510c"
 
 //HTML reference variables
 const planTripButton = document.getElementById("planTripButton");
+const mainContent = document.getElementById("mainContent");
+const tripTemplate = document.getElementById("trip");
 
 //modalVariables
 const searchBox = document.getElementById("location");
@@ -22,8 +24,8 @@ let geoNames;
 let selectedGeoName;
 
 const currentDate = new Date();
-startDatePicker.valueAsDate = currentDate;
-endDatePicker.valueAsDate = addDays(currentDate, 1);
+startDatePicker.valueAsDate = addDays(currentDate, 1);
+endDatePicker.valueAsDate = addDays(currentDate, 2);
 //getting today as string value for datepicker min attribute
 
 //helper functions for converting date to string
@@ -47,9 +49,9 @@ function addDays(date, days) {
 }
 
 //setting min choosable dates for start/enddate
-startDatePicker.min = convertDateToString(currentDate);
+startDatePicker.min = convertDateToString(addDays(currentDate, 1));
 startDatePicker.max = convertDateToString(addDays(currentDate, 14));
-endDatePicker.min = convertDateToString(addDays(currentDate, 1));
+endDatePicker.min = convertDateToString(addDays(currentDate, 2));
 endDatePicker.max = convertDateToString(addDays(currentDate, 15));
 
 
@@ -69,11 +71,97 @@ planTripButton.addEventListener("click", function () {
 confirmButton.addEventListener("click", function () {
     if (selectedGeoName == null) {
         hint.style.display = "inline";
-    } else{
+    } else {
         submitForm();
         modalWindow.style.display = "none"
     }
 })
+
+
+//trip card helper functions
+function showWeatherData(e) {
+    console.log(e);
+    const weather = e.parentElement.parentElement.parentElement;
+    console.log(weather);
+    const weatherBox = weather.querySelector("#weatherBox");
+    weatherBox.style.display = "block";
+}
+
+function hideWeatherData(e) {
+    const weather = e.parentElement.parentElement.parentElement;
+    console.log(weather);
+    const weatherBox = weather.querySelector("#weatherBox");
+    weatherBox.style.display = "none";
+}
+
+function updateTripCards(trips) {
+    removeAllTripCards();
+    for (const trip of trips) {
+        addTripCard(trip);
+    }
+}
+
+
+function removeAllTripCards() {
+    let tripCards = document.getElementsByClassName("tripCard");
+    while (tripCards[0]) {
+        tripCards[0].parentElement.removeChild(tripCards[0]);
+    }
+}
+
+function addTripCard(trip) {
+    let newTrip = tripTemplate.cloneNode(true);
+    newTrip.style.display = "grid";
+    newTrip.classList.add("tripCard");
+
+    let location = newTrip.querySelector("#tripLocation");
+    let deleteButton = newTrip.querySelector("#delTrip");
+    let img = newTrip.querySelector("img");
+    let startDate = newTrip.querySelector("#startDate");
+    let endDate = newTrip.querySelector("#endDate");
+    let days = newTrip.querySelector("#days");
+    let expandButton = newTrip.querySelector("#expand");
+    let shrinkButton = newTrip.querySelector("#shrink");
+    let minTemp = newTrip.querySelector("#min");
+    let maxTemp = newTrip.querySelector("#max");
+    let avgTemp = newTrip.querySelector("#avg");
+
+    location.innerHTML = trip.name;
+    deleteButton.setAttribute("tripId", "" + trip.id);
+
+    deleteButton.addEventListener("click", function () {
+        fetch('http://localhost:8000/deleteTrip/' + this.getAttribute("tripId"), {
+            method: 'DELETE',
+        })
+            .then(res => console.log(res.text()))
+            .then(function (data) {
+                fetchTrips();
+            })
+    })
+
+    if (trip.picURL == null) {
+        img.src = "https://cdn.pixabay.com/photo/2016/04/24/13/24/error-1349562_960_720.png";
+    } else {
+        img.src = trip.picURL;
+    }
+    startDate.innerHTML = trip.startTime;
+    endDate.innerHTML = trip.endTime;
+    days.innerHTLM = "1";
+
+    expandButton.addEventListener("click", function () {
+        showWeatherData(this);
+    });
+
+    shrinkButton.addEventListener("click", function () {
+        hideWeatherData(this);
+    });
+
+    minTemp.innerHTML = trip.minTemp;
+    maxTemp.innerHTML = trip.maxTemp;
+    avgTemp.innerHTML = trip.avgTemp;
+
+    mainContent.appendChild(newTrip);
+}
 
 
 
@@ -98,6 +186,19 @@ const postWeatherData = async (url = '', data = {}) => {
     }
 }
 
+const getAllTrips = async (url = '') => {
+    const response = await fetch(url, {
+        method: 'GET',
+    });
+
+    try {
+        const newData = await response.json();
+        return newData;
+    } catch (error) {
+        console.log("error", error);
+    }
+}
+
 function searchLocation(query) {
     postWeatherData('http://localhost:8000/receiveLocations', { location: query, length: 10 })
         .then(function (data) {
@@ -112,19 +213,21 @@ function searchLocation(query) {
 
 };
 
-const getWeatherData = async (url = '') => {
-    const res = await fetch(url);
-
-    try {
-        const data = await res.json();
-        return data;
-    } catch (error) {
-        console.log("error", error);
-    }
+function fetchTrips() {
+    getAllTrips('http://localhost:8000/all')
+        .then(function (data) {
+            console.log("awoke")
+            updateTripCards(data);
+        })
 }
 
-function getWeatherURL() {
-    return "https://api.weatherbit.io/v2.0/forecast/daily?lat=" + selectedGeoName.lat + "&lon=" + selectedGeoName.lng + "&key=" + weatherbitKey
+
+function submitForm() {
+    const body = { name: selectedGeoName.name, lat: selectedGeoName.lat, lng: selectedGeoName.lng, startTime: startDatePicker.value, endTime: endDatePicker.value };
+    postWeatherData('http://localhost:8000/newTrip', body)
+        .then(function (data) {
+            updateTripCards(data);
+        });
 }
 
 //callback function for receiving the autoselect element position
@@ -132,12 +235,4 @@ function getSelectedPosition(position) {
     selectedGeoName = geoNames[position];
 }
 
-function submitForm() {
-    const body = { name: selectedGeoName.name, lat: selectedGeoName.lat, lng: selectedGeoName.lng, startTime: startDatePicker.value, endTime: endDatePicker.value };
-    postWeatherData('http://localhost:8000/newTrip', body)
-        .then(function (data) {
-            console.log(data);
-        });
-}
-
-export { searchLocation }
+export { searchLocation, fetchTrips }

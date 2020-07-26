@@ -39,6 +39,7 @@ function listening(){
 // App data
 let trips = [];
 let newTrip;
+let tripId = 0;
 
 // Routes
 app.get('/all', function(req, res){
@@ -75,6 +76,7 @@ app.post('/receiveLocations', function(req, res){
 app.post('/newTrip', function(req, res){
     let newData = req.body;
     newTrip = {
+        id: tripId,
         name: newData.name,
         lat: newData.lat,
         lng: newData.lng,
@@ -100,8 +102,24 @@ app.post('/newTrip', function(req, res){
     })
     .then(function(data){
         res.send(trips);
+        console.log(trips);
+        tripId++;
     })
 })
+
+app.delete('/deleteTrip/:id', function (req, res) {
+    console.log("trips# " + trips.length);
+    
+    for (let i = 0; i < trips.length; i++){
+        console.log("checked id: " + trips[i].id);
+        console.log("checking id: " + req.params.id);
+        console.log(trips[i].id == req.params.id);
+        if (trips[i].id == req.params.id){
+            trips.splice(i,1);
+        }
+    }
+    res.send('successfully deleted');
+  });
 
 const getData = async (url = '') =>{
     const res = await fetch(url);

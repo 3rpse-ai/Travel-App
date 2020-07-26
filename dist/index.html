@@ -3,36 +3,102 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weather Journal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel App</title>
 <link href="main.css" rel="stylesheet"></head>
 
 <body>
   <div id="app">
-    <div class="holder headline">
-      Weather Journal App
-    </div>
-    <div class="holder zip">
-      <label for="zip">Enter Zipcode here</label>
-      <form autocomplete="off" action="/action_page.php">
-        <div class="autocomplete" style="width:300px;">
-          <input type="text" id="zip" placeholder="Please use format: Zipcode,Countrycode (1220,AT)">
+    <h1 class="holder headline">
+      Travel App
+    </h1>
+    <button class="primaryButton" id="planTripButton">Plan Next Trip</button>
+    <div id="mainContent">
+      <div id="trip">
+        <h1 id="tripLocation">London</h1>
+        <img
+          src="https://images.musement.com/cover/0002/49/big-ben-westminster-bridge-on-river-thames-in-london-jpg_header-148518.jpeg?w=1200&h=630&q=95&fit=crop">
+        <div class="timebox">
+          
+            <div class="time">
+              <div>Start:</div>
+              <div id="startDate">26.08.2020</div>
+            </div>
+            <div class="time">
+              <div>End:</div>
+              <div id="endDate">27.08.2020</div>
+            </div>
+            <div class="time">
+              <div>Days:</div>
+              <div id="days">1</div>
+            </div>
         </div>
-        <input type="submit">
-      </form>
-     
+        <div class="weather">
+          <div class="weatherHeader">
+            <h1>Expected Weather</h1>
+            <div>
+              <button class="primaryButton" id="expand">+</button>
+              <button class="primaryButton" id="shrink">-</button>
+            </div>
+          </div>
+          <div id="weatherBox">
+            <div class="temp">
+              <div>Min Temp:</div>
+              <div id="min">10°C</div>
+            </div>
+            <div class="temp">
+              <div>Max Temp:</div>
+              <div id="max">10°C</div>
+            </div>
+            <div class="temp">
+              <div>Average Temp:</div>
+              <div id="avg">10°C</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    
 
-    <div class="holder feel">
-      <label for="feelings">How are you feeling today?</label>
-      <textarea class="myInput" id="feelings" placeholder="Enter your feelings here" rows="9" cols="50"></textarea>
-      <button id="generate" type="submit"> Generate </button>
-    </div>
-    <div class="holder entry">
-      <div class="title"></div>
-      <div id="entryHolder">
-        <div id="date"></div>
-        <div id="temp"></div>
-        <div id="content"></div>
+
+
+  </div>
+
+  <div class="addTripModal">
+    <div class="modalContent">
+      <h1 id="modalHeader">Ready for your next trip?</h1>
+      <div id="modalInput">
+        <div>
+          <h2>Where do you want to go?</h2>
+          <span id="hint">Please choose a location:</span>
+          <form autocomplete="off" action="/action_page.php">
+            <div class="autocomplete">
+              <input type="text" id="location" placeholder="Search for a location">
+            </div>
+          </form>
+        </div>
+        <div>
+          <h2>When do you want to go?</h2>
+          <div id="datepicker">
+            <div>
+              <label for="start">Start Date</label>
+              <input type="date" id="start" name="trip-start">
+            </div>
+            <div>
+              <label for="end">End Date</label>
+              <input type="date" id="end" name="trip-end">
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div id="pic">
+        <img src="https://images.wsj.net/im-196106?width=1280&size=1">
+      </div>
+
+      <div id="modalbuttons">
+        <button class="secondaryButton" id="cancelModal" type="button">Cancel</button>
+        <button class="primaryButton" id="confirmModal" type="button">Submit</button>
       </div>
     </div>
   </div>
