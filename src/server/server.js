@@ -1,5 +1,3 @@
-// Setup empty JS object to act as endpoint for all routes
-let projectData = {};
 
 // Require Express to run server and routes
 const express = require('express');
@@ -21,15 +19,13 @@ dotenv.config();
 //environment variables
 const geoNamesUser = process.env.GEONAMES_USERNAME;
 const weatherbitKey = process.env.WEATHERBIT_API_KEY;
+const pixabayKey = process.env.PIXABAY_API_KEY;
 
 // Cors for cross origin allowance
 const cors = require('cors');
 app.use(cors());
 // Initialize the main project folder
 app.use(express.static('dist'))
-
-
-
 
 // Setup Server
 const port = 8000;
@@ -40,11 +36,15 @@ function listening(){
     console.log(`running on localhost: ${port}`);
 }
 
+// App data
+let trips = [];
+let newTrip;
+
 // Routes
 app.get('/all', function(req, res){
-    console.log("get called with: " + projectData);
-    console.log(projectData);   
-    res.send(projectData);
+    console.log("get called with: " + trips);
+    console.log(trips);   
+    res.send(trips);
 });
 
 app.post('/send', function(req, res){
@@ -66,7 +66,7 @@ app.post('/receiveLocations', function(req, res){
         location: newData.location,
         length: newData.length,
     }
-    getData(getURL(newRequest.location,newRequest.length))
+    getData(getLocationURL(newRequest.location,newRequest.length))
     .then(function(data){
         res.send(data);
     })
@@ -74,19 +74,26 @@ app.post('/receiveLocations', function(req, res){
 
 app.post('/newTrip', function(req, res){
     let newData = req.body;
-    console.log("we got to receiving stuff")
-    let newRequest = {
+    newTrip = {
         name: newData.name,
         lat: newData.lat,
         lng: newData.lng,
         startTime: newData.startTime,
         endTime: newData.endTime,
+        picURL: null,
     }
-    getData(getWeatherURL(newRequest.lat,newRequest.lng))
+    getData(getWeatherURL())
     .then(function(data){
-        console.log("we got to sending stuff")
-        console.log(data);
-        res.send(data);
+        return getData(getPicURL())
+    })
+    .then(function(data){
+        if(data.total > 0){
+            newTrip.picURL = data.hits[0].webformatURL;
+        }
+        trips.push(newTrip);
+    })
+    .then(function(data){
+        res.send(trips);
     })
 })
 
@@ -101,18 +108,18 @@ const getData = async (url = '') =>{
     }
 }
 
-function getURL(location, length){
+
+//helper functions for generating URLs
+function getLocationURL(location, length){
     return encodeURI('http://api.geonames.org/searchJSON?q='+location+'&maxRows='+length+'&username='+geoNamesUser);
 }
 
-
-function getWeatherURL(lat, lng){
-    return "https://api.weatherbit.io/v2.0/forecast/daily?lat="+ lat + "&lon=" + lng + "&key=" + weatherbitKey
+function getWeatherURL(){
+    return "https://api.weatherbit.io/v2.0/forecast/daily?lat="+ newTrip.lat + "&lon=" + newTrip.lng + "&key=" + weatherbitKey
 }
 
-
-function getPicURL(name){
-    
+function getPicURL(){
+    return "https://pixabay.com/api/?key="+ pixabayKey  + "&q=" + encodeURI(newTrip.name) + "&image_type=photo" + "&category=places";
 }
 
 
