@@ -1,5 +1,5 @@
 import { searchLocation } from './js/app'
-import { autocomplete } from './js/autocomplete'
+import { autocomplete, refreshList } from './js/autocomplete'
 import { fetchTrips } from './js/app'
 import './styles/style.scss'
 import './styles/autocomplete.scss'
@@ -10,7 +10,8 @@ import './styles/trip.scss'
 export{
     searchLocation,
     autocomplete,
-    fetchTrips
+    fetchTrips,
+    refreshList
 }
 
 console.log("Index.js reporting for duty sir!");

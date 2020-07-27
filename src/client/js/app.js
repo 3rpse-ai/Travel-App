@@ -1,4 +1,3 @@
-import { refreshList } from './autocomplete'
 
 //Weatherbit API Key
 const weatherbitKey = "6653081b9e7e4045904f295cee42510c"
@@ -214,7 +213,7 @@ function searchLocation(query) {
             for (const geoName of geoNames) {
                 names.push(geoName.name)
             }
-            refreshList(searchBox, names, getSelectedPosition);
+            Client.refreshList(searchBox, names, getSelectedPosition);
         })
 
 };
@@ -241,4 +240,5 @@ function getSelectedPosition(position) {
     selectedGeoName = geoNames[position];
 }
 
-export { searchLocation, fetchTrips }
+
+export { searchLocation, fetchTrips, getDaysLeft, convertDateToString }
