@@ -24,8 +24,8 @@ I have implemented two of the extras: Deleting and Adding Addtional Trips. Also 
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",
-    "@babel/preset-env": "^7.5.4",
     "@babel/plugin-transform-runtime": "^7.10.5",
+    "@babel/preset-env": "^7.5.4",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.0.0",
