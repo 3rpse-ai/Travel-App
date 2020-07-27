@@ -9,7 +9,7 @@ module.exports = {
         libraryTarget: 'var',
         library: 'Client'
     },
-    devServer: { port:8040,},
+    devServer: { port: 8040, },
     mode: 'development',
     devtool: 'source-map',
     module: {
@@ -21,7 +21,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: [ 'style-loader', 'css-loader', 'sass-loader' ]
+                use: ['style-loader', 'css-loader', 'sass-loader']
             }
         ]
     },

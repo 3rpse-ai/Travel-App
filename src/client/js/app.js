@@ -162,10 +162,10 @@ function addTripCard(trip) {
     mainContent.appendChild(newTrip);
 }
 
-function getDaysLeft(startTime){
+function getDaysLeft(startTime) {
     const today = new Date(convertDateToString(currentDate));
     const startDate = new Date(startTime);
-    return (startDate.getTime() - today.getTime())/(1000*60*60*24);
+    return (startDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
 }
 
 

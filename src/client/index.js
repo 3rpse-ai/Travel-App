@@ -7,7 +7,7 @@ import './styles/modal.scss'
 import './styles/trip.scss'
 
 
-export{
+export {
     searchLocation,
     autocomplete,
     fetchTrips,
