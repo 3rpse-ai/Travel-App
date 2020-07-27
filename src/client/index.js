@@ -1,6 +1,6 @@
-import { searchLocation } from './js/app'
+import { searchLocation, fetchTrips, addEventListeners, setUpDatePicker } from './js/app'
 import { autocomplete, refreshList } from './js/autocomplete'
-import { fetchTrips } from './js/app'
+import {  } from './js/app'
 import './styles/style.scss'
 import './styles/autocomplete.scss'
 import './styles/modal.scss'
@@ -23,3 +23,5 @@ const location = document.getElementById("location");
 
 autocomplete(location, searchLocation);
 fetchTrips();
+addEventListeners();
+setUpDatePicker();

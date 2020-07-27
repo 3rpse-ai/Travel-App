@@ -23,8 +23,19 @@ let geoNames;
 let selectedGeoName;
 
 const currentDate = new Date();
+
+function setUpDatePicker(){
+
+
+
 startDatePicker.valueAsDate = addDays(currentDate, 1);
 endDatePicker.valueAsDate = addDays(currentDate, 2);
+
+startDatePicker.min = convertDateToString(addDays(currentDate, 1));
+startDatePicker.max = convertDateToString(addDays(currentDate, 14));
+endDatePicker.min = convertDateToString(addDays(currentDate, 2));
+endDatePicker.max = convertDateToString(addDays(currentDate, 15));
+}
 //getting today as string value for datepicker min attribute
 
 //helper functions for converting date to string
@@ -47,14 +58,11 @@ function addDays(date, days) {
     return result;
 }
 
-//setting min choosable dates for start/enddate
-startDatePicker.min = convertDateToString(addDays(currentDate, 1));
-startDatePicker.max = convertDateToString(addDays(currentDate, 14));
-endDatePicker.min = convertDateToString(addDays(currentDate, 2));
-endDatePicker.max = convertDateToString(addDays(currentDate, 15));
 
 
 //modal window event listeners
+function addEventListeners(){
+
 cancelButton.addEventListener("click", function () {
     modalWindow.style.display = "none";
 });
@@ -75,6 +83,7 @@ confirmButton.addEventListener("click", function () {
         modalWindow.style.display = "none"
     }
 })
+}
 
 
 //trip card helper functions
@@ -241,4 +250,4 @@ function getSelectedPosition(position) {
 }
 
 
-export { searchLocation, fetchTrips, getDaysLeft, convertDateToString }
+export { searchLocation, fetchTrips, getDaysLeft, addDays, addEventListeners, setUpDatePicker }
